@@ -1,9 +1,0 @@
-#!/bin/bash
-
-files="config.lua post_message.lua send_dht.lua init.lua"
-
-for file in $files
-do
-    echo "** Uploading $file"
-    ./upload $file
-done

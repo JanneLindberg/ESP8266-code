@@ -1,8 +1,6 @@
 --
 -- Node configuration
 --
---
-
 serv_host="192.168.0.100"
 serv_port="8097"
 

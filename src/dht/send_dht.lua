@@ -22,7 +22,6 @@ function send_dht()
    t["payload"] = payload
 
    local msg1 = json.encode(t)
---   print(msg1)
 
    payload={}
    payload["value"] = tostring(temp)
@@ -32,10 +31,8 @@ function send_dht()
    t["payload"] = payload
    
    local msg2 = json.encode(t)
---   print(msg2)
-
    local msg0="["..msg1..","..msg2.."]\r\n"
-   print(msg0)
+--   print(msg0)
 
    post_message(serv_host,serv_port,msg0)
    
