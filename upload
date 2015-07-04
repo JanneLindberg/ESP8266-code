@@ -1,0 +1,12 @@
+#!/bin/bash
+
+
+filename=$1
+
+if [ ! -f ./luatool.py ]
+then
+    # Fetch luatool from https://github.com/4refr0nt/luatool if we don't yet have it    
+    wget https://raw.githubusercontent.com/4refr0nt/luatool/master/luatool/luatool.py
+fi
+
+./luatool.py --port /dev/ttyUSB0 --src ./code/${filename}  --dest ${filename} --baud 9600
