@@ -14,6 +14,7 @@ function post(msg)
    con:send("\r\n")
    con:on("sent",function(conn)
              conn:close()
+             collectgarbage()
    end
    )
 end
