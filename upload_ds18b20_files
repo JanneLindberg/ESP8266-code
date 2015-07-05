@@ -1,0 +1,13 @@
+#!/bin/bash
+
+#upload_ds18b20_files --port /dev/ttyUSB0 --baud 9600 --wipe
+
+./luatool.py --port /dev/ttyUSB0  --baud 9600 --src ${FIRMWARE_BASE}/nodemcu-firmware/lua_modules/ds18b20/ds18b20.lua  --dest ds18b20.lua --compile
+
+files="config.lua post.lua send_temp.lua init.lua"
+
+for filename in $files
+do
+    echo "** Uploading $filename"
+    ./luatool.py --port /dev/ttyUSB0 --src ./src/ds18b20/${filename}  --dest ${filename} --baud 9600 --restart
+done
