@@ -1,0 +1,7 @@
+#!/bin/bash
+
+serial_config="--port /dev/ttyUSB0 --baud 9600"
+
+config_file="./src/config_wifi.lua"
+
+./luatool.py $serial_config --src $config_file --dofile
