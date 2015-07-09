@@ -8,10 +8,29 @@
 --
 -- ****************************************************************************
 
-json = require "cjson"
+local gpio2=4
+
+local function post_message(msg)
+   local con=net.createConnection(net.TCP,0)
+   con:on("receive", function(con, c) print(c) end)
+   con:connect(config.port,config.host)
+   con:send("POST "..config.endpoint.." HTTP/1.1\r\n")
+   con:send("Content-Type: application/json\r\n")
+   con:send("Accept: application/json\r\n")
+   con:send("content-length:"..string.len(msg).."\r\n")
+   con:send("\r\n")
+   con:send(msg)
+   con:send("\r\n")
+   con:on("sent",function(conn)
+             conn:close()
+             collectgarbage()
+   end
+   )
+end
+
 
 function send_dht()
-   status,temp,rh,temp_decimial,humi_decimial = dht.read(4)
+   status,temp,rh,temp_decimial,humi_decimial = dht.read(gpio2)
 
    local t = {}
    local payload={}
@@ -21,19 +40,19 @@ function send_dht()
    t["dev-id"] = "dev."..node.chipid()..".rh"
    t["payload"] = payload
 
-   local msg1 = json.encode(t)
+   local rh_msg = json.encode(t)
 
    payload={}
    payload["value"] = tostring(temp)
-   payload["unit"] = "℃"
+   payload["unit"] = "temp"
    t = {}
    t["dev-id"] = "dev."..node.chipid()..".temp"
    t["payload"] = payload
    
-   local msg2 = json.encode(t)
-   local msg0="["..msg1..","..msg2.."]\r\n"
---   print(msg0)
-
-   post_message(serv_host,serv_port,msg0)
+   local temp_msg = json.encode(t)
    
+   local msg0="["..rh_msg..","..temp_msg.."]\r\n"
+
+   post_message(msg0)
+
 end

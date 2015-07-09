@@ -1,9 +1,14 @@
 #!/bin/bash
 
-files="config.lua post_message.lua send_dht.lua init.lua"
+serial_config="--port /dev/ttyUSB0 --baud 9600"
+
+files="config.lua send_dht.lua "
 
 for filename in $files
 do
     echo "** Uploading $filename"
-    ./luatool.py --port /dev/ttyUSB0 --src ./src/dht/${filename}  --dest ${filename} --baud 9600
+    ./luatool.py $serial_config --src ./src/dht/${filename}  --dest ${filename} --compile
 done
+
+filename="init.lua"
+./luatool.py $serial_config --src ./src/dht/${filename}  --dest ${filename} --restart
