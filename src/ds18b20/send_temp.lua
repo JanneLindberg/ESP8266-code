@@ -1,13 +1,17 @@
+-- ****************************************************************************
+-- ESP8266-01
 --
+-- Send DS18B20 sensor data connected to GPIO0 (3)
 --
+-- dev-id: dev.<ID>.<TYPE> payload: {:value <VALUE>, :unit RH}
 --
---
+-- ****************************************************************************
 
 function send_data(t, addr)
    local json = require("cjson")
-   local devid = string.format("%02X-%02X%02X%02X%02X%02X%02X%02X",
-                               addr:byte(1),addr:byte(2),addr:byte(3),addr:byte(4),
-                               addr:byte(5),addr:byte(6),addr:byte(7),addr:byte(8))
+   local devid = string.format("%02X-%02X%02X%02X%02X%02X%02X",
+                               addr:byte(1),addr:byte(7),addr:byte(6),addr:byte(5),
+                               addr:byte(4),addr:byte(3),addr:byte(2))
    
    local msg = {}
    local payload = {}
